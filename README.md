@@ -1,5 +1,6 @@
 # DSN-KOWOPE-MART
 
+https://zindi.africa/hackathons/dsn-ai-bootcamp-qualification-hackathon
 * Objective:
 
 A data science machine learning prediction project on credit card and line of credit to detect if customers will default or not
