@@ -3,7 +3,16 @@ from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import RandomForestClassifier
 import pickle as pk
+from pydrive2.auth import GoogleAuth
+from pydrive2.drive import GoogleDrive
 
+
+gauth = GoogleAuth(settings_file="settings.yaml")
+gauth.LocalWebserverAuth()
+
+drive = GoogleDrive(gauth)
+file_id = "1NshmV9MnVg9isJ_hn4KJjSWZ8TER4zMM"
+output_filename = "model_lgb.pk"
 
 def prediction(data):
     test = pd.read_csv(data)
