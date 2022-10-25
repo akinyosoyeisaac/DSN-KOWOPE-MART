@@ -3,3 +3,7 @@
 credit_card_customer_churn
 *.pk
 *.html
+client_secrets.json
+credentials.json
+settings.yaml
+test.py
