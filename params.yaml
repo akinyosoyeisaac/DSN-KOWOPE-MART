@@ -1,0 +1,21 @@
+loglevel: INFO
+base: 234
+
+data_loading:
+  train_path: data/Train.csv
+
+preprocessing:
+  processed_path: data/train_preprocessed.csv
+  missing_val: 40
+
+training:
+  k_n: 13
+  model: model/model.pk
+
+evaluate:
+  classification_report: report/classification_report.json
+  confusion_matrix: report/confusion_matrix_rf.jpg
+  roc_curve: report/roc_curve_rf.jpg
+
+
+

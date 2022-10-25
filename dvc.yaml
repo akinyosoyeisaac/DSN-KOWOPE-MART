@@ -1,0 +1,47 @@
+stages:
+  data_loading:
+    cmd: python src/data_loading.py params.yaml
+    deps:
+    - src/data_loading.py
+    - data/Train.csv
+    params:
+    - data_loading
+
+  preprocessing:
+    cmd: python src/feature_processing.py params.yaml
+    deps:
+    - src/feature_processing.py
+    - data/Train.csv
+    params:
+    - data_loading
+    - preprocessing
+    outs:
+    - data/train_preprocessed.csv
+
+  training:
+    cmd: python src/training.py params.yaml
+    deps:
+    - scr/training.py
+    - data/train_preprocessed.csv
+    params:
+    - base
+    - preprocessing
+    - training
+    outs:
+    - model/model.pk
+
+  evaluation:
+    cmd: python src/evaluation.py params.yaml
+    deps:
+    - scr/evalution.py
+    - model/model.pk
+    params:
+    - training
+    - evaluate
+    metrics:
+    - report/classification_report.json:
+        cache: false
+    - report/confusion_matrix_rf.jpg:
+        cache: false
+    - report/roc_curve_rf.jpg:
+        cache: false
