@@ -6,6 +6,11 @@ def convert_csv(file):
     return file.to_csv()
 
 def main():
+    hide_default_format = """
+        <style>
+        footer {visibility: hidden;}
+        </style>
+    """
     st.set_page_config(page_title="KOWOPE-MARK CCDection")
     st.title("KOWOPE-MART CREDIT CARD CUSTOMER DEFAULT DETECTION")
     
