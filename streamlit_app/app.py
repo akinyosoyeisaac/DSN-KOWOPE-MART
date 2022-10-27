@@ -6,12 +6,13 @@ def convert_csv(file):
     return file.to_csv()
 
 def main():
+    st.set_page_config(page_title="KOWOPE-MARK CCDection", layout="wide")
     hide_default_format = """
         <style>
         footer {visibility: hidden;}
         </style>
     """
-    st.set_page_config(page_title="KOWOPE-MARK CCDection")
+    st.markdown(hide_default_format, unsafe_allow_html=True)
     st.title("KOWOPE-MART CREDIT CARD CUSTOMER DEFAULT DETECTION")
     
     st.header("Upload File For Inference")
