@@ -25,7 +25,13 @@ Before training the model, `exploratory data analysis` was done and it was disco
 3. multicollinearity 
 4. The scale of the value is not uniform
 
-In training the model three different algorithm which are random forest, light gradient boost and xgboost were used in the training the data out of which random forest classifier happens to out perform the other two. Due to the large size of the models it was not included in this github repo but can be download via this [link](https://drive.google.com/drive/folders/1AL4d22aHkx1rnIyHHytz-Sg0YgXWxUzf) and save the model directory
+In training the model three different algorithm which are random forest, light gradient boost and xgboost were used in the training the data out of which random forest classifier happens to out perform the other two. Due to the large size of the models it was not included in this github repo but can be download via this [link](https://drive.google.com/drive/folders/1AL4d22aHkx1rnIyHHytz-Sg0YgXWxUzf) and save the model directory.
+
+The machine pipeline includes;
+- Data loading
+- Feature processing and transformation
+- Model training
+- Evaluation
 
 # SETUP
 To run the codes in this project the first step is to run
