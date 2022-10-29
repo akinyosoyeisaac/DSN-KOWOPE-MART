@@ -1,0 +1,92 @@
+schema: '2.0'
+stages:
+  preprocessing:
+    cmd: python src/feature_processing.py params.yaml
+    deps:
+    - path: data/Train.csv
+      md5: 28faa189faf0b555ccac347dac3ffbbf
+      size: 18065184
+    - path: src/data_loading.py
+      md5: dc167867a6caffa18572f5e7c43845f6
+      size: 1007
+    - path: src/feature_processing.py
+      md5: 9099082c1ea85bab000d35b2bfbe8996
+      size: 2921
+    params:
+      params.yaml:
+        data_loading:
+          train_path: data/Train.csv
+        preprocessing:
+          processed_path: data/train_preprocessed.csv
+          missing_val: 40
+    outs:
+    - path: data/train_preprocessed.csv
+      md5: 50836805967b47230c3f305a934da393
+      size: 9773559
+  data_loading:
+    cmd: python src/data_loading.py params.yaml
+    deps:
+    - path: data/Train.csv
+      md5: 28faa189faf0b555ccac347dac3ffbbf
+      size: 18065184
+    - path: src/data_loading.py
+      md5: dc167867a6caffa18572f5e7c43845f6
+      size: 1007
+    params:
+      params.yaml:
+        data_loading:
+          train_path: data/Train.csv
+  training:
+    cmd: python src/training.py params.yaml
+    deps:
+    - path: data/train_preprocessed.csv
+      md5: 50836805967b47230c3f305a934da393
+      size: 9773559
+    - path: src/training.py
+      md5: a740a72ce0c13878f205afb014c2bcfd
+      size: 2533
+    params:
+      params.yaml:
+        base: 234
+        preprocessing:
+          processed_path: data/train_preprocessed.csv
+          missing_val: 40
+        training:
+          k_n: 13
+          y_pred: data/y_pred.csv
+          y_test: data/y_test.csv
+          model: model/model.pk
+    outs:
+    - path: model/model.pk
+      md5: 002e7d67aec40bab78e530c0e95d814a
+      size: 61350919
+  evaluation:
+    cmd: python src/evaluation.py params.yaml
+    deps:
+    - path: model/model.pk
+      md5: 002e7d67aec40bab78e530c0e95d814a
+      size: 61350919
+    - path: src/evaluation.py
+      md5: 5d16b16e0f4639a64614f8d576d3e240
+      size: 2130
+    params:
+      params.yaml:
+        evaluate:
+          classification_report: report/classification_report.json
+          confusion_matrix: report/confusion_matrix.jpg
+          roc_curve: report/roc_curve.jpg
+        training:
+          k_n: 13
+          y_pred: data/y_pred.csv
+          y_test: data/y_test.csv
+          model: model/model.pk
+    outs:
+    - path: report/classification_report.json
+      md5: df01ef8ae308ca69653e68e3c1e77279
+      size: 386
+    - path: report/confusion_matrix.jpg
+      md5: 06239b6884ecfcbdc757e9a655b68dcc
+      size: 35325
+    - path: report/roc_curve.jpg
+      md5: ec992d82551f8800f81eba56c0d6ca25
+      size: 37997

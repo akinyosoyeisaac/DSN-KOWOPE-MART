@@ -10,12 +10,14 @@ preprocessing:
 
 training:
   k_n: 13
+  y_pred: data/y_pred.csv
+  y_test: data/y_test.csv
   model: model/model.pk
 
 evaluate:
   classification_report: report/classification_report.json
-  confusion_matrix: report/confusion_matrix_rf.jpg
-  roc_curve: report/roc_curve_rf.jpg
+  confusion_matrix: report/confusion_matrix.jpg
+  roc_curve: report/roc_curve.jpg
 
 
 

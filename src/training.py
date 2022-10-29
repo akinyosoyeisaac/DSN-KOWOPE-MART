@@ -22,7 +22,7 @@ def train(path: str):
     config = configuration(path)
     log = get_logger("TRAINING", "INFO")
     log.msg("loading the preprocessed data")
-    train_copy = pd.read_csv(config["data_loading"]["processed_path"])
+    train_copy = pd.read_csv(config["preprocessing"]["processed_path"])
     
     # splitting the train data for the purpose of upsampling it
     X, y = train_copy.drop(columns="default_status"), train_copy["default_status"]
@@ -38,7 +38,10 @@ def train(path: str):
     for train_index, test_index in sss.split(X, y):
         X_train, X_test = X.loc[train_index], X.loc[test_index]
         y_train, y_test = y[train_index], y[test_index]
-        
+    
+    log.msg("saving the y_test to the data directory")
+    y_test.to_csv(config["training"]["y_test"])
+    
     log.msg("training the data")
     impute_missing = SimpleImputer()
     scaler = StandardScaler()
@@ -48,12 +51,13 @@ def train(path: str):
     pipe.fit(X_train, y_train)
     y_pred = pipe.predict(X_test)
     
+    log.msg("saving the y_pred to the data directory")
+    pd.Series(y_pred, name="default_status", index=y_test.index).to_csv(config["training"]["y_pred"])
+    
     log.msg("saving the model to the model directory")
     with open(config["training"]["model"], "wb") as file:
         pk.dump(pipe, file)
     
-    log.msg("the function returns the y_test and y_pred for evaluation")
-    return y_test, y_pred
 
 if __name__ == "__main__":
     app()

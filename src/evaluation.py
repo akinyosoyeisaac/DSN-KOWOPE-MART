@@ -1,8 +1,8 @@
+import pandas as pd
 import matplotlib.pyplot as plt 
 from sklearn.metrics import classification_report, RocCurveDisplay, ConfusionMatrixDisplay
 import json
 from log import get_logger
-from training import train
 import yaml
 import typer
 import pickle as pk
@@ -20,20 +20,19 @@ def reporting(path: str):
     config = configuration(path)
     log = get_logger("PERFORMANCE REPORTING", "INFO")
     log.msg("loading the validation y data")
-    y_test, y_pred = train()
+    y_test, y_pred = pd.read_csv(config["training"]["y_test"])["default_status"], pd.read_csv(config["training"]["y_pred"], index_col=0)["default_status"]
     
-    with open(config["training"]["model"]) as file:
+    with open(config["training"]["model"], "rb") as file:
         model = pk.load(file)
-        model_name = str(model.__class__)
-        model_name = model_name.split(".")[-1].replace("'>", "")
+        model_name = model.steps[-1][0]
         
     log.msg("Generating the classification report")
-    classification_report = classification_report(y_test, y_pred)
-    classification_report_dict = {f"classification_report_{model_name}": classification_report}
+    classification = classification_report(y_test, y_pred)
+    classification_report_dict = {f"classification_report_{model_name}": classification}
     
     log.msg("Saving the classification report in the report directory")
-    with open(config["evaluate"]["classification_report"], "w"):
-        json.dump(classification_report_dict)
+    with open(config["evaluate"]["classification_report"], "w") as file:
+        json.dump(classification_report_dict, file)
         
     log.msg("Generating the confusion matrix report")
     fig, ax = plt.subplots(figsize=(5,5))

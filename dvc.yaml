@@ -10,6 +10,7 @@ stages:
   preprocessing:
     cmd: python src/feature_processing.py params.yaml
     deps:
+    - src/data_loading.py
     - src/feature_processing.py
     - data/Train.csv
     params:
@@ -21,7 +22,7 @@ stages:
   training:
     cmd: python src/training.py params.yaml
     deps:
-    - scr/training.py
+    - src/training.py
     - data/train_preprocessed.csv
     params:
     - base
@@ -33,7 +34,7 @@ stages:
   evaluation:
     cmd: python src/evaluation.py params.yaml
     deps:
-    - scr/evalution.py
+    - src/evaluation.py
     - model/model.pk
     params:
     - training
@@ -41,7 +42,8 @@ stages:
     metrics:
     - report/classification_report.json:
         cache: false
-    - report/confusion_matrix_rf.jpg:
+    plots:
+    - report/confusion_matrix.jpg:
         cache: false
-    - report/roc_curve_rf.jpg:
+    - report/roc_curve.jpg:
         cache: false
